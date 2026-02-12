@@ -1,0 +1,20 @@
+name: Update Prices
+
+     on:
+     schedule:
+      - cron: '0 */12 * * *'
+     workflow_dispatch:
+
+     jobs:
+     update:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Fetch prices
+          run: node scripts/fetch-prices.js
+        - name: Save changes
+          run: |
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
+            git add prices.json
+            git diff --staged --quiet || (git commit -m "Update prices" && git push)
