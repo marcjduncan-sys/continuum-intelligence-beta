@@ -1,3 +1,53 @@
-name: Update
-on: workflow_dispatch
-jobs: {}
+  name: Update
+
+  on:
+    workflow_dispatch:
+    schedule:
+      - cron: '0 */12 * * *'
+
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      permissions:
+        contents: write
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+        - run: |
+            node -e "
+            const https = require('https');
+            const fs = require('fs');
+            const TICKERS = ['WOW','CSL','XRO','WTC'];
+            async function fetch(t) {
+              return new Promise(r => {
+                https.get('https://query1.finance.yahoo.com/v8/finance/chart/' + t + '.AX', {headers:{'User-Agent':'Mozi
+  lla/5.0'}}, res => {
+                  let d = '';
+                  res.on('data', c => d += c);
+                  res.on('end', () => {
+                    try {
+                      const price = JSON.parse(d).chart.result[0].meta.regularMarketPrice;
+                      r({ticker: t, price: price.toFixed(2)});
+                    } catch(e) { r({ticker: t, price: '--'}); }
+                  });
+                }).on('error', () => r({ticker: t, price: '--'}));
+              });
+            }
+            async function main() {
+              const results = {};
+              for (const t of TICKERS) {
+                results[t] = await fetch(t);
+                await new Promise(r => setTimeout(r, 1000));
+              }
+              fs.writeFileSync('prices.json', JSON.stringify(results, null, 2));
+              console.log(results);
+            }
+            main();
+            "
+        - run: |
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
+            git add prices.json
+            git commit -m "Update prices" && git push || echo "No changes"
