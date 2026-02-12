@@ -1,18 +1,18 @@
-name: Update Prices
-  on:
-    schedule:
-      - cron: '0 */12 * * *'
-    workflow_dispatch:
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      permissions:
-        contents: write
-      steps:
-        - uses: actions/checkout@v4
-        - run: node scripts/fetch-prices.js
-        - run: |
-            git config user.name "Bot"
-            git config user.email "bot@example.com"
-            git add prices.json
-            git commit -m "Update prices" && git push || echo "No changes"
+ name: Update
+ on: workflow_dispatch
+ jobs:
+   build:
+     runs-on: ubuntu-latest
+     permissions:
+       contents: write
+     steps:
+       - uses: actions/checkout@v4
+       - uses: actions/setup-node@v4
+         with:
+           node-version: '20'
+       - run: node scripts/get-prices.js
+       - run: |
+           git config user.name "github-actions"
+           git config user.email "actions@github.com"
+           git add prices.json
+           git commit -m "Update prices" && git push || echo "No changes"
