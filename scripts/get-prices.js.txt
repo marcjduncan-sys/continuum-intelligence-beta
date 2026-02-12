@@ -1,0 +1,35 @@
+ const https = require('https');
+ const fs = require('fs');
+
+ const tickers = ['WOW', 'CSL', 'XRO', 'WTC'];
+ function getPrice(ticker) {
+   return new Promise((resolve) => {
+     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}.AX?interval=1d&range=1d`;
+     https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+       let data = '';
+       res.on('data', chunk => data += chunk);
+       res.on('end', () => {
+         try {
+           const json = JSON.parse(data);
+           const price = json.chart.result[0].meta.regularMarketPrice;
+           resolve({ ticker, price: price.toFixed(2) });
+         } catch (e) {
+           resolve({ ticker, price: 'error' });
+         }
+       });
+     }).on('error', () => resolve({ ticker, price: 'error' }));
+   });
+ }
+
+  async function main() {
+  const results = {};
+   for (const t of tickers) {
+     console.log(`Fetching ${t}...`);
+     results[t] = await getPrice(t);
+     await new Promise(r => setTimeout(r, 1000));
+   }
+   fs.writeFileSync('prices.json', JSON.stringify(results, null, 2));
+   console.log('Done! Prices saved to prices.json');
+ }
+
+  main();
