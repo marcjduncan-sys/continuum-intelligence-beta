@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuum Intelligence — Woolworths Group (WOW.AX) Research Note</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Institutional Palette */
+            --bg-primary: #fafbfc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f5f6f8;
+            --bg-elevated: #eef0f2;
+            --bg-grid: #f8f9fa;
+
+            /* Text Hierarchy */
+            --text-primary: #111827;
+            --text-secondary: #374151;
+            --text-tertiary: #6b7280;
+            --text-muted: #9ca3af;
+
+            /* Signal Colors */
+            --signal-bull: #059669;
+            --signal-bull-light: #d1fae5;
+            --signal-bear: #dc2626;
+            --signal-bear-light: #fee2e2;
+            --signal-amber: #d97706;
+            --signal-amber-light: #fef3c7;
+            --signal-blue: #2563eb;
+            --signal-blue-light: #dbeafe;
+
+            /* Borders */
+            --border-light: #e5e7eb;
+            --border-standard: #d1d5db;
+            --border-strong: #9ca3af;
+
+            /* Typography */
+            --font-mono: 'IBM Plex Mono', monospace;
+            --font-sans: 'Inter', system-ui, sans-serif;
+
+            /* Spacing */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 2px solid var(--border-strong);
+            padding: var(--space-4) var(--space-6);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-grid {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: var(--space-6);
+            align-items: center;
+        }
+
+        .brand {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .brand span { color: var(--signal-blue); }
+
+        .meta-center {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-align: center;
+        }
+
+        .meta-right {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        /* Ticker Bar */
+        .ticker-bar {
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-light);
+            padding: var(--space-3) var(--space-6);
+        }
+
+        .ticker-grid {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: var(--space-4);
+        }
+
+        .ticker-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .ticker-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .ticker-value {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .ticker-value.bear { color: var(--signal-bear); }
+        .ticker-value.bull { color: var(--signal-bull); }
+        .ticker-value.amber { color: var(--signal-amber); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-5) var(--space-6);
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: var(--space-6);
+        }
+
+        /* Section Styling */
+        .section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            margin-bottom: var(--space-5);
+        }
+
+        .section-header {
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-light);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .section-badge {
+            background: var(--signal-blue);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* Data Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .data-table th {
+            background: var(--bg-grid);
+            border-bottom: 1px solid var(--border-standard);
+            padding: var(--space-2) var(--space-3);
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .data-table td {
+            padding: var(--space-2) var(--space-3);
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: top;
+        }
+
+        .data-table tr:hover td {
+            background: var(--bg-tertiary);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Hypothesis Cards Grid */
+        .hypothesis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+            padding: var(--space-4);
+        }
+
+        .hypothesis-card {
+            border: 1px solid var(--border-light);
+            background: var(--bg-secondary);
+        }
+
+        .hypothesis-card.active {
+            border-color: var(--signal-bear);
+            box-shadow: 0 0 0 1px var(--signal-bear);
+        }
+
+        .hypothesis-header {
+            background: var(--bg-tertiary);
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hypothesis-rank {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--text-primary);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .hypothesis-title {
+            font-weight: 700;
+            font-size: 13px;
+            margin-left: var(--space-2);
+        }
+
+        .hypothesis-prob {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--signal-bear);
+        }
+
+        .hypothesis-body {
+            padding: var(--space-3);
+        }
+
+        .hypothesis-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: var(--space-3);
+        }
+
+        .evidence-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .evidence-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .evidence-tag.support {
+            background: var(--signal-bull-light);
+            color: var(--signal-bull);
+        }
+
+        .evidence-tag.contra {
+            background: var(--signal-bear-light);
+            color: var(--signal-bear);
+        }
+
+        .evidence-tag.neutral {
+            background: var(--bg-elevated);
+            color: var(--text-tertiary);
+        }
+
+        /* Matrix Grid */
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 180px repeat(4, 1fr);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .matrix-header {
+            background: var(--bg-grid);
+            padding: var(--space-2) var(--space-3);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-standard);
+            border-right: 1px solid var(--border-light);
+        }
+
+        .matrix-header:last-child { border-right: none; }
+
+        .matrix-cell {
+            padding: var(--space-2) var(--space-3);
+            border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+            font-size: 11px;
+        }
+
+        .matrix-cell:last-child { border-right: none; }
+
+        .matrix-cell.domain {
+            font-weight: 600;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .signal-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--signal-bull);
+        }
+
+        .signal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .signal-badge.strong-bull {
+            background: var(--signal-bull-light);
+            color: var(--signal-bull);
+        }
+
+        .signal-badge.bull {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--signal-bull);
+        }
+
+        .signal-badge.neutral {
+            background: var(--bg-elevated);
+            color: var(--text-tertiary);
+        }
+
+        .signal-badge.bear {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--signal-bear);
+        }
+
+        .signal-badge.strong-bear {
+            background: var(--signal-bear-light);
+            color: var(--signal-bear);
+        }
+
+        /* Financial Tables */
+        .fin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .fin-table th {
+            background: var(--bg-grid);
+            border-bottom: 1px solid var(--border-standard);
+            padding: var(--space-2) var(--space-3);
+            text-align: right;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+
+        .fin-table th:first-child { text-align: left; }
+
+        .fin-table td {
+            padding: var(--space-2) var(--space-3);
+            border-bottom: 1px solid var(--border-light);
+            text-align: right;
+            font-family: var(--font-mono);
+        }
+
+        .fin-table td:first-child {
+            text-align: left;
+            font-family: var(--font-sans);
+            font-weight: 500;
+        }
+
+        .fin-table tr:hover td { background: var(--bg-tertiary); }
+
+        .change-down { color: var(--signal-bear); }
+        .change-up { color: var(--signal-bull); }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .sidebar-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+        }
+
+        .sidebar-header {
+            background: var(--bg-tertiary);
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border-light);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .verdict-box {
+            padding: var(--space-4);
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .verdict-badge {
+            display: inline-block;
+            background: var(--signal-bear);
+            color: white;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            padding: var(--space-2) var(--space-4);
+            border-radius: 4px;
+            margin-bottom: var(--space-3);
+        }
+
+        .verdict-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .tripwire-list {
+            padding: var(--space-3);
+        }
+
+        .tripwire-item {
+            padding: var(--space-3);
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--signal-amber);
+            margin-bottom: var(--space-3);
+        }
+
+        .tripwire-item:last-child { margin-bottom: 0; }
+
+        .tripwire-date {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--signal-amber);
+            margin-bottom: var(--space-1);
+        }
+
+        .tripwire-event {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+
+        .tripwire-count {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        /* Key Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-light);
+        }
+
+        .metric-cell {
+            background: var(--bg-secondary);
+            padding: var(--space-3);
+            text-align: center;
+        }
+
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .metric-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* Risk Flags */
+        .risk-list {
+            padding: var(--space-3);
+        }
+
+        .risk-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-2);
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 12px;
+        }
+
+        .risk-item:last-child { border-bottom: none; }
+
+        .risk-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .risk-indicator.critical { background: var(--signal-bear); }
+        .risk-indicator.high { background: var(--signal-amber); }
+        .risk-indicator.medium { background: var(--signal-blue); }
+
+        /* Two Column Layout within main */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-5);
+        }
+
+        /* Compact List */
+        .compact-list {
+            padding: var(--space-3);
+        }
+
+        .compact-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 12px;
+        }
+
+        .compact-item:last-child { border-bottom: none; }
+
+        .compact-label { color: var(--text-secondary); }
+        .compact-value { 
+            font-family: var(--font-mono); 
+            font-weight: 600;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .status-pending {
+            background: var(--signal-amber-light);
+            color: var(--signal-amber);
+        }
+
+        .status-confirmed {
+            background: var(--signal-bull-light);
+            color: var(--signal-bull);
+        }
+
+        .status-negative {
+            background: var(--signal-bear-light);
+            color: var(--signal-bear);
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 1600px;
+            margin: var(--space-6) auto;
+            padding: var(--space-4) var(--space-6);
+            border-top: 1px solid var(--border-light);
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-grid">
+            <div class="brand">CONTINUUM<span>INTELLIGENCE</span></div>
+            <div class="meta-center">RESEARCH NOTE | ASX:WOW | CONSUMER STAPLES | GROCERY RETAIL</div>
+            <div class="meta-right">11 FEB 2026 | ID: WOW-2026-001 | CONFIDENTIAL</div>
+        </div>
+    </header>
+
+    <!-- Ticker Bar -->
+    <div class="ticker-bar">
+        <div class="ticker-grid">
+            <div class="ticker-item">
+                <span class="ticker-label">Last Price</span>
+                <span class="ticker-value">A$31.41</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">Change</span>
+                <span class="ticker-value bear">▼ A$0.89 (2.75%)</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">Market Cap</span>
+                <span class="ticker-value">A$38.3B</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">Fwd P/E</span>
+                <span class="ticker-value amber">23.5x</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">EV/EBITDA</span>
+                <span class="ticker-value">12.1x</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">Div Yield</span>
+                <span class="ticker-value">2.9%</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">52W Range</span>
+                <span class="ticker-value">A$28.12 - A$38.45</span>
+            </div>
+            <div class="ticker-item">
+                <span class="ticker-label">Analyst Consensus</span>
+                <span class="ticker-value amber">HOLD (2.8)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Investment Thesis -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="section-badge">01</span>
+                        Investment Thesis & Hypothesis Framework
+                    </div>
+                    <span style="font-size: 11px; color: var(--text-muted);">ACH Methodology | 4 Active Hypotheses</span>
+                </div>
+
+                <div class="hypothesis-grid">
+                    <div class="hypothesis-card active">
+                        <div class="hypothesis-header">
+                            <div style="display: flex; align-items: center;">
+                                <span class="hypothesis-rank">T1</span>
+                                <span class="hypothesis-title">Managed Turnaround</span>
+                            </div>
+                            <span class="hypothesis-prob">50%</span>
+                        </div>
+                        <div class="hypothesis-body">
+                            <p class="hypothesis-desc">$400M cost-out program delivers margin recovery to 4.5-5.0% EBIT by FY27. Australian Food returns to mid-high single-digit EBIT growth. E-commerce reaches scale profitability. Big W returns to sustainable profit. Dividend per share recovers toward A$1.00.</p>
+                            <div class="evidence-list">
+                                <span class="evidence-tag support">Mgmt Guidance</span>
+                                <span class="evidence-tag support">Cost Program</span>
+                                <span class="evidence-tag support">Broker Consensus</span>
+                                <span class="evidence-tag contra">H1 Trend</span>
+                                <span class="evidence-tag contra">Price Invest</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis-card">
+                        <div class="hypothesis-header">
+                            <div style="display: flex; align-items: center;">
+                                <span class="hypothesis-rank">T2</span>
+                                <span class="hypothesis-title">Structural Margin Erosion</span>
+                            </div>
+                            <span class="hypothesis-prob" style="color: var(--signal-amber);">35%</span>
+                        </div>
+                        <div class="hypothesis-body">
+                            <p class="hypothesis-desc">Permanent price investment to defend 38% market share compresses margins structurally. FY25 4.0% EBIT margin becomes ceiling, not trough. Cost savings consumed by price cuts, wage inflation, and e-commerce fulfilment. ROIC fails to recover above WACC.</p>
+                            <div class="evidence-list">
+                                <span class="evidence-tag support">ACCC Pressure</span>
+                                <span class="evidence-tag support">Aldi Growth</span>
+                                <span class="evidence-tag support">Costco</span>
+                                <span class="evidence-tag support">Wage Costs</span>
+                                <span class="evidence-tag support">Online Costs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis-card">
+                        <div class="hypothesis-header">
+                            <div style="display: flex; align-items: center;">
+                                <span class="hypothesis-rank">T3</span>
+                                <span class="hypothesis-title">Regulatory Overhang</span>
+                            </div>
+                            <span class="hypothesis-prob" style="color: var(--signal-amber);">12%</span>
+                        </div>
+                        <div class="hypothesis-body">
+                            <p class="hypothesis-desc">ACCC litigation establishes punitive precedent. FGCC mandatory code provisions constrain supplier negotiations. Potential divestment remedies or structural separation of retail/wholesale. Regulatory costs become permanent drag on earnings.</p>
+                            <div class="evidence-list">
+                                <span class="evidence-tag support">ACCC Case</span>
+                                <span class="evidence-tag support">FGCC Code</span>
+                                <span class="evidence-tag support">Senate Inquiry</span>
+                                <span class="evidence-tag neutral">Political Risk</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hypothesis-card">
+                        <div class="hypothesis-header">
+                            <div style="display: flex; align-items: center;">
+                                <span class="hypothesis-rank">T4</span>
+                                <span class="hypothesis-title">Competitive Disruption</span>
+                            </div>
+                            <span class="hypothesis-prob" style="color: var(--text-muted);">3%</span>
+                        </div>
+                        <div class="hypothesis-body">
+                            <p class="hypothesis-desc">Aldi launches e-commerce platform. Amazon Fresh scales aggressively. Costco expands warehouse footprint into Woolworths' heartland. Market share erosion accelerates beyond 100bps annually. Premium multiple compresses to value retail peers.</p>
+                            <div class="evidence-list">
+                                <span class="evidence-tag neutral">Aldi Online</span>
+                                <span class="evidence-tag neutral">Amazon</span>
+                                <span class="evidence-tag support">Costco</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evidence Matrix -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="section-badge">02</span>
+                        Evidence Alignment Matrix
+                    </div>
+                    <span style="font-size: 11px; color: var(--text-muted);">10 Domains × 4 Hypotheses | Last Updated: 11 Feb 2026</span>
+                </div>
+
+                <div class="matrix-grid">
+                    <div class="matrix-header">Evidence Domain</div>
+                    <div class="matrix-header">T1 Turnaround</div>
+                    <div class="matrix-header">T2 Erosion</div>
+                    <div class="matrix-header">T3 Regulatory</div>
+                    <div class="matrix-header">T4 Disruption</div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Corporate Communications</div>
+                    <div class="matrix-cell"><span class="signal-badge strong-bull">▲▲ STRONG</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Regulatory Filings</div>
+                    <div class="matrix-cell"><span class="signal-badge bear">▼ NEGATIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge strong-bull">▲▲ STRONG</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Broker Research</div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Competitor Intel</div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge strong-bull">▲▲ STRONG</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Economic Data</div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Alternative Data</div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bear">▼ NEGATIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Management Track</div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Capital Markets</div>
+                    <div class="matrix-cell"><span class="signal-badge bear">▼ NEGATIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Supplier Channel</div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge strong-bull">▲▲ STRONG</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+
+                    <div class="matrix-cell domain"><span class="signal-dot"></span>Media Sentiment</div>
+                    <div class="matrix-cell"><span class="signal-badge bear">▼ NEGATIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge bull">▲ POSITIVE</span></div>
+                    <div class="matrix-cell"><span class="signal-badge neutral">— NEUTRAL</span></div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <!-- Discriminating Evidence -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <span class="section-badge">03</span>
+                            Discriminating Evidence
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">Diag</th>
+                                <th>Evidence / Event</th>
+                                <th style="width: 100px;">Reading</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span style="background: var(--signal-bear-light); color: var(--signal-bear); padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 700;">HIGH</span></td>
+                                <td><strong>H1 FY26 Australian Food EBIT growth</strong> (25 Feb). Consensus +11.8% vs guidance "mid-to-high single digits." Variance discriminates T1 vs T2.</td>
+                                <td><span class="status-badge status-pending">⏱ 13 Days</span></td>
+                            </tr>
+                            <tr>
+                                <td><span style="background: var(--signal-bear-light); color: var(--signal-bear); padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 700;">HIGH</span></td>
+                                <td><strong>ACCC v Woolworths court outcome.</strong> Coles settled A$10.25M. Woolworths fighting. Precedent risk for T3.</td>
+                                <td><span class="status-badge status-pending">⏱ TBC</span></td>
+                            </tr>
+                            <tr>
+                                <td><span style="background: var(--signal-bear-light); color: var(--signal-bear); padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 700;">HIGH</span></td>
+                                <td><strong>$400M cost-out delivery trajectory.</strong> Q1-Q2 savings realisation vs price investment spend. Margin flow-through critical.</td>
+                                <td><span class="status-badge status-pending">⏱ Unverified</span></td>
+                            </tr>
+                            <tr>
+                                <td><span style="background: var(--signal-amber-light); color: var(--signal-amber); padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 700;">MED</span></td>
+                                <td><strong>Aldi online grocery launch.</strong> Currently offline only. Binary risk to e-commerce moat (T4).</td>
+                                <td><span class="status-badge status-confirmed">✓ No Plans</span></td>
+                            </tr>
+                            <tr>
+                                <td><span style="background: var(--signal-amber-light); color: var(--signal-amber); padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 700;">MED</span></td>
+                                <td><strong>FGCC fresh produce provisions.</strong> Effective April 2026. Impact on supplier negotiations and terms.</td>
+                                <td><span class="status-badge status-pending">⏱ 79 Days</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Financial Summary -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <span class="section-badge">04</span>
+                            Financial Summary
+                        </div>
+                        <span style="font-size: 11px; color: var(--text-muted);">A$ Millions | FYE June</span>
+                    </div>
+                    <table class="fin-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>FY24A</th>
+                                <th>FY25E</th>
+                                <th>FY26E</th>
+                                <th>FY27E</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Revenue</td>
+                                <td>67,922</td>
+                                <td>69,100</td>
+                                <td>71,200</td>
+                                <td>73,800</td>
+                            </tr>
+                            <tr>
+                                <td>EBITDA</td>
+                                <td>5,847</td>
+                                <td>5,420</td>
+                                <td>5,680</td>
+                                <td>6,100</td>
+                            </tr>
+                            <tr>
+                                <td>EBIT</td>
+                                <td>3,561</td>
+                                <td>2,780</td>
+                                <td>3,050</td>
+                                <td>3,450</td>
+                            </tr>
+                            <tr>
+                                <td>NPAT</td>
+                                <td>1,724</td>
+                                <td>1,396</td>
+                                <td>1,580</td>
+                                <td>1,820</td>
+                            </tr>
+                            <tr>
+                                <td>EPS (cps)</td>
+                                <td>142.0</td>
+                                <td>114.8</td>
+                                <td>130.0</td>
+                                <td>149.8</td>
+                            </tr>
+                            <tr>
+                                <td>DPS (cps)</td>
+                                <td>92.0</td>
+                                <td>84.0</td>
+                                <td>92.0</td>
+                                <td>102.0</td>
+                            </tr>
+                            <tr style="border-top: 2px solid var(--border-standard);">
+                                <td>EBIT Margin</td>
+                                <td>5.2%</td>
+                                <td class="change-down">4.0%</td>
+                                <td>4.3%</td>
+                                <td>4.7%</td>
+                            </tr>
+                            <tr>
+                                <td>ROE</td>
+                                <td>22.4%</td>
+                                <td class="change-down">17.2%</td>
+                                <td>18.5%</td>
+                                <td>20.1%</td>
+                            </tr>
+                            <tr>
+                                <td>Net Debt / EBITDA</td>
+                                <td>1.8x</td>
+                                <td>2.1x</td>
+                                <td>2.0x</td>
+                                <td>1.8x</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Segment Analysis -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <span class="section-badge">05</span>
+                        Segment Analysis & Key Drivers
+                    </div>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Segment</th>
+                            <th>FY25E Revenue</th>
+                            <th>FY25E EBIT</th>
+                            <th>Margin</th>
+                            <th>YoY Change</th>
+                            <th>Key Driver</th>
+                            <th>Risk Factor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Australian Food</strong></td>
+                            <td>A$52,400M</td>
+                            <td>A$2,180M</td>
+                            <td>4.2%</td>
+                            <td class="change-down">▼ 18%</td>
+                            <td>Price investment, volume recovery</td>
+                            <td>Market share defence cost</td>
+                        </tr>
+                        <tr>
+                            <td><strong>New Zealand Food</strong></td>
+                            <td>A$7,200M</td>
+                            <td>A$280M</td>
+                            <td>3.9%</td>
+                            <td class="change-down">▼ 25%</td>
+                            <td>Regulatory compliance costs</td>
+                            <td>Competition Commission action</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Big W</strong></td>
+                            <td>A$4,100M</td>
+                            <td>A$(50)M</td>
+                            <td>(1.2%)</td>
+                            <td class="change-down">▼ Loss</td>
+                            <td>Turnaround program execution</td>
+                            <td>Consumer discretionary weakness</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Business</strong></td>
+                            <td>A$5,400M</td>
+                            <td>A$220M</td>
+                            <td>4.1%</td>
+                            <td class="change-up">▲ 5%</td>
+                            <td>B2B growth, PFD integration</td>
+                            <td>Macro slowdown</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Corporate</strong></td>
+                            <td>A$0M</td>
+                            <td>A$(150)M</td>
+                            <td>—</td>
+                            <td class="change-down">▼ 20%</td>
+                            <td>Cost centre reduction</td>
+                            <td>Legacy system costs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Verdict -->
+            <div class="sidebar-box">
+                <div class="sidebar-header">Analytical Verdict</div>
+                <div class="verdict-box">
+                    <div class="verdict-badge">▼ DOWNSIDE</div>
+                    <p class="verdict-text">Evidence accumulating against embedded turnaround narrative. Premium multiple (23.5x fwd P/E) pricing T1 recovery with insufficient margin of safety.</p>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-cell">
+                        <div class="metric-value" style="color: var(--signal-bear);">T1</div>
+                        <div class="metric-label">Priority</div>
+                    </div>
+                    <div class="metric-cell">
+                        <div class="metric-value">50%</div>
+                        <div class="metric-label">Confidence</div>
+                    </div>
+                    <div class="metric-cell">
+                        <div class="metric-value">A$28</div>
+                        <div class="metric-label">Target</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Critical Tripwires -->
+            <div class="sidebar-box">
+                <div class="sidebar-header">Critical Tripwires</div>
+                <div class="tripwire-list">
+                    <div class="tripwire-item">
+                        <div class="tripwire-date">25 FEB 2026</div>
+                        <div class="tripwire-event">H1 FY26 Results</div>
+                        <div class="tripwire-count">Australian Food EBIT growth definitive test</div>
+                    </div>
+                    <div class="tripwire-item" style="border-left-color: var(--signal-bear);">
+                        <div class="tripwire-date">H1 2026</div>
+                        <div class="tripwire-event">ACCC Court Outcome</div>
+                        <div class="tripwire-count">Precedent risk for regulatory T3</div>
+                    </div>
+                    <div class="tripwire-item" style="border-left-color: var(--signal-blue);">
+                        <div class="tripwire-date">APR 2026</div>
+                        <div class="tripwire-event">FGCC Code Effective</div>
+                        <div class="tripwire-count">Fresh produce provisions impact</div>
+                    </div>
+                    <div class="tripwire-item" style="border-left-color: var(--text-muted);">
+                        <div class="tripwire-date">MAY 2026</div>
+                        <div class="tripwire-event">Q3 Trading Update</div>
+                        <div class="tripwire-count">Volume vs price trade-off clarity</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Flags -->
+            <div class="sidebar-box">
+                <div class="sidebar-header">Active Risk Flags</div>
+                <div class="risk-list">
+                    <div class="risk-item">
+                        <div class="risk-indicator critical"></div>
+                        <div>
+                            <strong>Margin Recovery Failure</strong><br>
+                            <span style="color: var(--text-muted); font-size: 11px;">H1 FY26 EBIT growth &lt;5% confirms T2</span>
+                        </div>
+                    </div>
+                    <div class="risk-item">
+                        <div class="risk-indicator high"></div>
+                        <div>
+                            <strong>ACCC Litigation</strong><br>
+                            <span style="color: var(--text-muted); font-size: 11px;">Punitive damages &gt;A$50M</span>
+                        </div>
+                    </div>
+                    <div class="risk-item">
+                        <div class="risk-indicator high"></div>
+                        <div>
+                            <strong>Market Share Loss</strong><br>
+                            <span style="color: var(--text-muted); font-size: 11px;">&gt;100bps to Aldi/Coles</span>
+                        </div>
+                    </div>
+                    <div class="risk-item">
+                        <div class="risk-indicator medium"></div>
+                        <div>
+                            <strong>Dividend Cut</strong><br>
+                            <span style="color: var(--text-muted); font-size: 11px;">If FY26 EPS &lt;A$1.20</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Statistics -->
+            <div class="sidebar-box">
+                <div class="sidebar-header">Key Statistics</div>
+                <div class="compact-list">
+                    <div class="compact-item">
+                        <span class="compact-label">52-Week High</span>
+                        <span class="compact-value">A$38.45</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">52-Week Low</span>
+                        <span class="compact-value">A$28.12</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Avg Daily Vol</span>
+                        <span class="compact-value">4.2M</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Short Interest</span>
+                        <span class="compact-value" style="color: var(--signal-bear);">3.8%</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Institutional</span>
+                        <span class="compact-value">78%</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Beta (2Y)</span>
+                        <span class="compact-value">0.65</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Payout Ratio</span>
+                        <span class="compact-value">73%</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Franked</span>
+                        <span class="compact-value">100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Broker Consensus -->
+            <div class="sidebar-box">
+                <div class="sidebar-header">Broker Consensus</div>
+                <div class="compact-list">
+                    <div class="compact-item">
+                        <span class="compact-label">Buy</span>
+                        <span class="compact-value" style="color: var(--signal-bull);">8</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Hold</span>
+                        <span class="compact-value">9</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Sell</span>
+                        <span class="compact-value" style="color: var(--signal-bear);">3</span>
+                    </div>
+                    <div class="compact-item" style="border-top: 1px solid var(--border-light); margin-top: var(--space-2); padding-top: var(--space-2);">
+                        <span class="compact-label">Target Price</span>
+                        <span class="compact-value">A$33.20</span>
+                    </div>
+                    <div class="compact-item">
+                        <span class="compact-label">Upside</span>
+                        <span class="compact-value" style="color: var(--signal-bull);">+5.7%</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 Continuum Intelligence Pty Ltd. All rights reserved.</div>
+        <div>CONFIDENTIAL — Not for distribution. This analysis is for informational purposes only and does not constitute personal financial advice.</div>
+    </footer>
+</body>
+</html>
